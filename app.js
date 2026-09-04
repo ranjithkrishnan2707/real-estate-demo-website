@@ -1,6 +1,6 @@
 /**
- * AURA ESTATES - Application Logic
- * State management, dynamic rendering, filtering, financial tools, and interactive modal dialogs.
+ * AURA ESTATES - Application Logic (Tamil Nadu Edition)
+ * State management, dynamic filters, Indian Rupee EMI calculator, and interactive modals.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     selectedLocation: 'all',
     selectedType: 'all',
     selectedBeds: 'all',
-    priceMax: 35000000,
+    priceMax: 500000000, // 50 Cr max
     sortBy: 'featured',
     currentPropertyModal: null,
     theme: localStorage.getItem('aura_theme') || 'dark'
@@ -83,12 +83,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!container) return;
 
     const categories = [
-      { id: 'all', label: 'All Estates' },
-      { id: 'villas', label: 'Luxury Villas' },
-      { id: 'penthouse', label: 'Penthouses' },
-      { id: 'oceanfront', label: 'Waterfront' },
-      { id: 'chalet', label: 'Alpine Chalets' },
-      { id: 'commercial', label: 'Commercial' }
+      { id: 'all', label: 'All TN Estates' },
+      { id: 'villas', label: 'Beachfront & City Villas' },
+      { id: 'penthouse', label: 'Sky Penthouses' },
+      { id: 'oceanfront', label: 'ECR Waterfront' },
+      { id: 'chalet', label: 'Nilgiris Tea Chalets' },
+      { id: 'commercial', label: 'Commercial CBD' }
     ];
 
     container.innerHTML = categories.map(cat => `
@@ -107,6 +107,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // --- Format Indian Currency (Crores & Lakhs) ---
+  function formatINR(val) {
+    if (val >= 10000000) {
+      return `₹${(val / 10000000).toFixed(1)} Cr`;
+    } else if (val >= 100000) {
+      return `₹${(val / 100000).toFixed(1)} L`;
+    }
+    return `₹${val.toLocaleString('en-IN')}`;
+  }
+
   // --- Render Property Grid ---
   function renderProperties() {
     const grid = document.getElementById('propertyGrid');
@@ -114,16 +124,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!grid) return;
 
     if (countEl) {
-      countEl.textContent = `${state.filteredProperties.length} Properties Found`;
+      countEl.textContent = `${state.filteredProperties.length} Properties Found in Tamil Nadu`;
     }
 
     if (state.filteredProperties.length === 0) {
       grid.innerHTML = `
         <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px;">
           <i class="fa-solid fa-house-chimney-crack" style="font-size: 3rem; color: var(--accent-gold); margin-bottom: 16px;"></i>
-          <h3 style="font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 8px;">No Exclusive Properties Match Your Criteria</h3>
-          <p style="color: var(--text-secondary); max-width: 450px; margin: 0 auto 20px;">Try adjusting your location, price slider, or property type filters.</p>
-          <button class="btn btn-outline" id="resetFiltersBtn"><i class="fa-solid fa-rotate-left"></i> Reset All Filters</button>
+          <h3 style="font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 8px;">No Luxury Estates Match Your Selection</h3>
+          <p style="color: var(--text-secondary); max-width: 450px; margin: 0 auto 20px;">Adjust your price slider, location, or property category filters.</p>
+          <button class="btn btn-outline" id="resetFiltersBtn"><i class="fa-solid fa-rotate-left"></i> Reset Filters</button>
         </div>
       `;
       const resetBtn = document.getElementById('resetFiltersBtn');
@@ -140,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="card-img-wrap">
             <img class="card-img" src="${prop.mainImage}" alt="${prop.title}" loading="lazy">
             <span class="card-badge">${prop.status}</span>
-            <button class="card-fav-btn ${isFav ? 'active' : ''}" data-id="${prop.id}" title="Save to Favorites">
+            <button class="card-fav-btn ${isFav ? 'active' : ''}" data-id="${prop.id}" title="Save to Wishlist">
               <i class="${isFav ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
             </button>
             <div class="card-price-tag">${prop.formattedPrice}</div>
@@ -153,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="card-specs">
               ${prop.beds ? `<div class="spec-item"><i class="fa-solid fa-bed"></i> ${prop.beds} Beds</div>` : ''}
               <div class="spec-item"><i class="fa-solid fa-bath"></i> ${prop.baths} Baths</div>
-              <div class="spec-item"><i class="fa-solid fa-vector-square"></i> ${prop.sqft.toLocaleString()} Sq Ft</div>
+              <div class="spec-item"><i class="fa-solid fa-vector-square"></i> ${prop.sqft.toLocaleString('en-IN')} Sq Ft</div>
             </div>
             <div class="card-footer">
               ${agent ? `
@@ -171,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
     }).join('');
 
-    // Attach Event Handlers to Rendered Elements
+    // Attach Event Handlers
     grid.querySelectorAll('.card-fav-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -189,18 +199,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- Filtering Engine ---
   function applyFilters() {
     state.filteredProperties = state.properties.filter(prop => {
-      // Category Filter
-      if (state.activeCategory !== 'all' && prop.category !== state.activeCategory) {
-        return false;
-      }
-      // Tab Filter (Buy / Rent)
-      if (state.activeTab && prop.type !== state.activeTab) {
-        return false;
-      }
-      // Location Dropdown / Search Query
-      if (state.selectedLocation !== 'all' && !prop.location.toLowerCase().includes(state.selectedLocation.toLowerCase())) {
-        return false;
-      }
+      if (state.activeCategory !== 'all' && prop.category !== state.activeCategory) return false;
+      if (state.activeTab && prop.type !== state.activeTab) return false;
+      if (state.selectedLocation !== 'all' && !prop.location.toLowerCase().includes(state.selectedLocation.toLowerCase())) return false;
       if (state.searchQuery) {
         const q = state.searchQuery.toLowerCase();
         const match = prop.title.toLowerCase().includes(q) || 
@@ -208,23 +209,15 @@ document.addEventListener('DOMContentLoaded', () => {
                       prop.description.toLowerCase().includes(q);
         if (!match) return false;
       }
-      // Property Type Dropdown
-      if (state.selectedType !== 'all' && prop.category !== state.selectedType) {
-        return false;
-      }
-      // Bedrooms
+      if (state.selectedType !== 'all' && prop.category !== state.selectedType) return false;
       if (state.selectedBeds !== 'all') {
         const bedsMin = parseInt(state.selectedBeds);
         if (prop.beds < bedsMin) return false;
       }
-      // Price Max Range
-      if (prop.type === 'Buy' && prop.price > state.priceMax) {
-        return false;
-      }
+      if (prop.type === 'Buy' && prop.price > state.priceMax) return false;
       return true;
     });
 
-    // Sorting Logic
     if (state.sortBy === 'price-low') {
       state.filteredProperties.sort((a, b) => a.price - b.price);
     } else if (state.sortBy === 'price-high') {
@@ -242,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
     state.selectedLocation = 'all';
     state.selectedType = 'all';
     state.selectedBeds = 'all';
-    state.priceMax = 35000000;
+    state.priceMax = 500000000;
     state.sortBy = 'featured';
 
     const searchInput = document.getElementById('heroSearchInput');
@@ -256,12 +249,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (locSelect) locSelect.value = 'all';
     if (typeSelect) typeSelect.value = 'all';
     if (bedSelect) bedSelect.value = 'all';
-    if (priceSlider) priceSlider.value = 35000000;
+    if (priceSlider) priceSlider.value = 500000000;
     if (sortSelect) sortSelect.value = 'featured';
 
     renderCategories();
     applyFilters();
-    showToast("Filters reset to default view");
+    showToast("Filters reset to Tamil Nadu default view");
   }
 
   // --- Render Neighborhood Locations ---
@@ -276,7 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <h3 class="location-name">${loc.name}</h3>
           <span class="location-tagline">${loc.tagline}</span>
           <div class="location-meta">
-            <span>${loc.propertyCount} Exclusive Listings</span>
+            <span>${loc.propertyCount} Exclusive TN Listings</span>
             <span>From ${loc.startPrice}</span>
           </div>
         </div>
@@ -285,9 +278,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     grid.querySelectorAll('.location-card').forEach(card => {
       card.addEventListener('click', () => {
-        state.selectedLocation = card.dataset.loc;
+        state.selectedLocation = card.dataset.loc.split(' ')[0];
         const locSelect = document.getElementById('heroLocSelect');
-        if (locSelect) locSelect.value = card.dataset.loc;
+        if (locSelect) locSelect.value = state.selectedLocation;
         applyFilters();
         document.getElementById('propertiesSection').scrollIntoView({ behavior: 'smooth' });
       });
@@ -306,14 +299,14 @@ document.addEventListener('DOMContentLoaded', () => {
         <p class="agent-title">${agent.title}</p>
         <div class="agent-stats">
           <div><strong>${agent.experience}</strong><br><small style="color:var(--text-muted)">Experience</small></div>
-          <div><strong>${agent.salesVolume}</strong><br><small style="color:var(--text-muted)">Track Record</small></div>
+          <div><strong>${agent.salesVolume}</strong><br><small style="color:var(--text-muted)">Volume</small></div>
         </div>
         <div class="agent-actions">
           <button class="btn btn-outline" onclick="window.location.href='mailto:${agent.email}'">
             <i class="fa-regular fa-envelope"></i> Email
           </button>
           <button class="btn btn-gold schedule-agent-btn" data-agent="${agent.name}">
-            <i class="fa-regular fa-calendar-check"></i> Book Consultation
+            <i class="fa-regular fa-calendar-check"></i> Private Consultation
           </button>
         </div>
       </div>
@@ -348,7 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
     `).join('');
   }
 
-  // --- Mortgage Calculator Calculations ---
+  // --- Indian Rupee (INR) Home Loan EMI Calculator ---
   function initMortgageCalculator() {
     const priceInput = document.getElementById('calcHomePrice');
     const downInput = document.getElementById('calcDownPayment');
@@ -367,41 +360,41 @@ document.addEventListener('DOMContentLoaded', () => {
       const downAmount = homePrice * (downPercent / 100);
       const loanAmount = homePrice - downAmount;
 
-      let monthlyPrincipalInterest = 0;
+      let monthlyEMI = 0;
       if (rate > 0) {
-        monthlyPrincipalInterest = loanAmount * (rate * Math.pow(1 + rate, totalPayments)) / (Math.pow(1 + rate, totalPayments) - 1);
+        monthlyEMI = loanAmount * (rate * Math.pow(1 + rate, totalPayments)) / (Math.pow(1 + rate, totalPayments) - 1);
       } else {
-        monthlyPrincipalInterest = loanAmount / totalPayments;
+        monthlyEMI = loanAmount / totalPayments;
       }
 
-      const monthlyTax = (homePrice * 0.012) / 12; // ~1.2% tax
-      const monthlyInsurance = (homePrice * 0.004) / 12; // ~0.4% insurance
-      const monthlyHOA = homePrice > 10000000 ? 1200 : 450; // HOA estimate
+      const monthlyTax = (homePrice * 0.007) / 12; // ~0.7% property tax
+      const monthlyInsurance = (homePrice * 0.003) / 12; // ~0.3% insurance
+      const monthlyMaintenance = 35000; // TN luxury gated villa maintenance
 
-      const totalMonthly = monthlyPrincipalInterest + monthlyTax + monthlyInsurance + monthlyHOA;
+      const totalMonthly = monthlyEMI + monthlyTax + monthlyInsurance + monthlyMaintenance;
 
-      // Update UI Labels
-      document.getElementById('valHomePrice').textContent = `$${homePrice.toLocaleString()}`;
-      document.getElementById('valDownPayment').textContent = `${downPercent}% ($${Math.round(downAmount).toLocaleString()})`;
-      document.getElementById('valInterestRate').textContent = `${rateInput.value}%`;
+      // Update Labels
+      document.getElementById('valHomePrice').textContent = formatINR(homePrice);
+      document.getElementById('valDownPayment').textContent = `${downPercent}% (${formatINR(downAmount)})`;
+      document.getElementById('valInterestRate').textContent = `${rateInput.value}% p.a.`;
       document.getElementById('valLoanTerm').textContent = `${termYears} Years`;
-      document.getElementById('calcMonthlyTotal').textContent = `$${Math.round(totalMonthly).toLocaleString()}`;
+      document.getElementById('calcMonthlyTotal').textContent = formatINR(Math.round(totalMonthly)) + " / mo";
 
-      // Update Breakdown Percentages & Bar
-      const pPercent = (monthlyPrincipalInterest / totalMonthly) * 100;
+      // Update Breakdown Bar
+      const pPercent = (monthlyEMI / totalMonthly) * 100;
       const taxPercent = (monthlyTax / totalMonthly) * 100;
       const insPercent = (monthlyInsurance / totalMonthly) * 100;
-      const hoaPercent = (monthlyHOA / totalMonthly) * 100;
+      const hoaPercent = (monthlyMaintenance / totalMonthly) * 100;
 
       document.getElementById('barPrincipal').style.width = `${pPercent}%`;
       document.getElementById('barTax').style.width = `${taxPercent}%`;
       document.getElementById('barInsurance').style.width = `${insPercent}%`;
       document.getElementById('barHOA').style.width = `${hoaPercent}%`;
 
-      document.getElementById('legPrincipal').textContent = `$${Math.round(monthlyPrincipalInterest).toLocaleString()}`;
-      document.getElementById('legTax').textContent = `$${Math.round(monthlyTax).toLocaleString()}`;
-      document.getElementById('legInsurance').textContent = `$${Math.round(monthlyInsurance).toLocaleString()}`;
-      document.getElementById('legHOA').textContent = `$${Math.round(monthlyHOA).toLocaleString()}`;
+      document.getElementById('legPrincipal').textContent = formatINR(Math.round(monthlyEMI));
+      document.getElementById('legTax').textContent = formatINR(Math.round(monthlyTax));
+      document.getElementById('legInsurance').textContent = formatINR(Math.round(monthlyInsurance));
+      document.getElementById('legHOA').textContent = formatINR(monthlyMaintenance);
     }
 
     priceInput.addEventListener('input', calculateMortgage);
@@ -441,7 +434,7 @@ document.addEventListener('DOMContentLoaded', () => {
       container.innerHTML = `
         <div style="text-align: center; padding: 40px 0; color: var(--text-muted);">
           <i class="fa-regular fa-heart" style="font-size: 2.5rem; margin-bottom: 12px; display: block;"></i>
-          <p>Your wishlist is currently empty.</p>
+          <p>Your saved wishlist is empty.</p>
         </div>
       `;
       return;
@@ -492,19 +485,19 @@ document.addEventListener('DOMContentLoaded', () => {
               ${prop.formattedPrice}
             </div>
           </div>
-          <h2 style="font-family: var(--font-heading); font-size: 2rem; margin-bottom: 6px;">${prop.title}</h2>
+          <h2 style="font-family: var(--font-heading); font-size: 1.9rem; margin-bottom: 6px;">${prop.title}</h2>
           <p style="color: var(--accent-gold); margin-bottom: 16px;"><i class="fa-solid fa-location-dot"></i> ${prop.address}</p>
           
           <div class="card-specs" style="margin-bottom: 20px;">
             ${prop.beds ? `<div class="spec-item"><i class="fa-solid fa-bed"></i> ${prop.beds} Beds</div>` : ''}
             <div class="spec-item"><i class="fa-solid fa-bath"></i> ${prop.baths} Baths</div>
-            <div class="spec-item"><i class="fa-solid fa-vector-square"></i> ${prop.sqft.toLocaleString()} Sq Ft</div>
+            <div class="spec-item"><i class="fa-solid fa-vector-square"></i> ${prop.sqft.toLocaleString('en-IN')} Sq Ft</div>
             <div class="spec-item"><i class="fa-solid fa-warehouse"></i> ${prop.garages} Garage</div>
           </div>
 
           <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 20px; line-height: 1.6;">${prop.description}</p>
           
-          <h4 style="font-family: var(--font-heading); font-size: 1.1rem; margin-bottom: 10px;">Premium Amenities</h4>
+          <h4 style="font-family: var(--font-heading); font-size: 1.1rem; margin-bottom: 10px;">Premium Tamil Nadu Amenities</h4>
           <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;">
             ${prop.amenities.map(a => `
               <span style="background: rgba(212, 175, 55, 0.1); border: 1px solid var(--border-gold); padding: 4px 12px; border-radius: var(--radius-full); font-size: 0.8rem; color: var(--accent-gold-light);">
@@ -515,7 +508,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           <div style="display: flex; gap: 12px;">
             <button class="btn btn-gold modal-schedule-btn" style="flex: 1;" data-id="${prop.id}">
-              <i class="fa-regular fa-calendar-check"></i> Schedule Private Tour
+              <i class="fa-regular fa-calendar-check"></i> Book Site Visit
             </button>
             <button class="btn btn-outline" style="width: 50px;" onclick="window.print()">
               <i class="fa-solid fa-print"></i>
@@ -525,7 +518,6 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `;
 
-    // Thumbnails click handler
     const mainImg = content.querySelector('#modalMainImg');
     content.querySelectorAll('.modal-thumb').forEach(thumb => {
       thumb.addEventListener('click', () => {
@@ -537,7 +529,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     content.querySelector('.modal-schedule-btn').addEventListener('click', () => {
       closeModal('propertyDetailModal');
-      openScheduleModal(prop.title, agent ? agent.name : 'Senior Agent');
+      openScheduleModal(prop.title, agent ? agent.name : 'Senior Broker');
     });
 
     openModal('propertyDetailModal');
@@ -547,8 +539,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const propInput = document.getElementById('tourPropertyInput');
     const agentInput = document.getElementById('tourAgentInput');
 
-    if (propInput) propInput.value = propertyTitle || 'General Private Tour Request';
-    if (agentInput) agentInput.value = agentName || 'Assigned Senior Broker';
+    if (propInput) propInput.value = propertyTitle || 'General Site Visit Request';
+    if (agentInput) agentInput.value = agentName || 'Assigned Tamil Nadu Broker';
 
     openModal('scheduleTourModal');
   }
@@ -565,11 +557,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- Event Listeners Setup ---
   function initEventListeners() {
-    // Theme Button
     const themeBtn = document.getElementById('themeToggleBtn');
     if (themeBtn) themeBtn.addEventListener('click', toggleTheme);
 
-    // Wishlist Drawer Toggle
     const wishlistBtn = document.getElementById('wishlistDrawerBtn');
     const drawerBackdrop = document.getElementById('wishlistDrawerBackdrop');
     const closeDrawerBtn = document.getElementById('closeDrawerBtn');
@@ -586,7 +576,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Tab Search Buttons (Buy / Rent)
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -596,7 +585,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // Hero Search Bar Inputs
     const searchInput = document.getElementById('heroSearchInput');
     const locSelect = document.getElementById('heroLocSelect');
     const typeSelect = document.getElementById('heroTypeSelect');
@@ -630,14 +618,13 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Price Slider & Sort Select
     const priceSlider = document.getElementById('priceRangeSlider');
     const sortSelect = document.getElementById('sortSelect');
 
     if (priceSlider) {
       priceSlider.addEventListener('input', (e) => {
         state.priceMax = parseFloat(e.target.value);
-        document.getElementById('priceSliderVal').textContent = `$${(state.priceMax / 1000000).toFixed(1)}M`;
+        document.getElementById('priceSliderVal').textContent = formatINR(state.priceMax);
         applyFilters();
       });
     }
@@ -648,7 +635,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Modal Close Triggers
     document.querySelectorAll('.modal-close-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const modal = btn.closest('.modal-backdrop');
@@ -662,28 +648,25 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // Schedule Tour Form Submit
     const tourForm = document.getElementById('scheduleTourForm');
     if (tourForm) {
       tourForm.addEventListener('submit', (e) => {
         e.preventDefault();
         closeModal('scheduleTourModal');
-        showToast("Private tour request submitted! Our senior broker will contact you shortly.");
+        showToast("Site visit requested! Our Chennai advisory desk will contact you via Phone/WhatsApp.");
         tourForm.reset();
       });
     }
 
-    // 360 Tour Button Demo Trigger
     const play360Btn = document.getElementById('play360Btn');
     if (play360Btn) {
       play360Btn.addEventListener('click', () => {
-        showToast("Launching interactive 360° Virtual Spatial Viewer...");
+        showToast("Launching interactive 360° Virtual Walkthrough...");
         openPropertyModal('prop-1');
       });
     }
   }
 
-  // --- Toast Notification Helper ---
   function showToast(message) {
     const container = document.getElementById('toastContainer');
     if (!container) return;
