@@ -1297,18 +1297,276 @@ img {
   font-size: 0.85rem;
 }
 
-/* --- Responsive Adjustments --- */
+/* ==========================================================================
+   RESPONSIVE SYSTEM — Full Mobile-First Breakpoints
+   ========================================================================== */
+
+/* ── Hamburger Menu Button (hidden on desktop) ── */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-full);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border-light);
+  cursor: pointer;
+  z-index: 1100;
+  transition: all var(--transition-fast);
+}
+.nav-hamburger span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--text-primary);
+  border-radius: 2px;
+  transition: all var(--transition-fast);
+}
+.nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── Mobile Nav Overlay ── */
+.mobile-nav-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(7,10,15,0.97);
+  backdrop-filter: blur(20px);
+  z-index: 1050;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+.mobile-nav-overlay.open {
+  display: flex;
+  opacity: 1;
+}
+.mobile-nav-overlay .mobile-nav-link {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 12px 0;
+  transition: color var(--transition-fast);
+  text-align: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+.mobile-nav-overlay .mobile-nav-link:hover,
+.mobile-nav-overlay .mobile-nav-link.active {
+  color: var(--accent-gold);
+}
+.mobile-nav-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid var(--border-light);
+  color: var(--text-primary);
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.mobile-nav-close:hover { background: var(--accent-gold); color: #0b0f19; }
+
+/* ── Tablet: 1024px ── */
 @media (max-width: 1024px) {
   .hero-title { font-size: 3rem; }
+  .section-title { font-size: 2.2rem; }
+  .section-padding { padding: 80px 0; }
+
+  /* Search */
   .search-grid { grid-template-columns: 1fr 1fr; }
-  .calc-card { grid-template-columns: 1fr; }
-  .footer-grid { grid-template-columns: 1fr 1fr; }
+
+  /* Calculator — stack to single column */
+  .calc-card {
+    grid-template-columns: 1fr;
+    padding: 28px;
+    gap: 28px;
+  }
+  .monthly-amount { font-size: 2.6rem; }
+
+  /* Filter bar */
+  .filter-bar { flex-direction: column; align-items: flex-start; }
+
+  /* Location grid */
+  .location-grid { grid-template-columns: repeat(2, 1fr); }
+  .location-card { height: 300px; }
+
+  /* Agent grid */
+  .agent-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Footer */
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 30px; }
+  .footer-brand { grid-column: 1 / -1; }
+
+  /* Modal */
+  .modal-box { padding: 28px; }
 }
 
+/* ── Mobile: 768px ── */
 @media (max-width: 768px) {
+
+  /* ── Header ── */
   .nav-menu { display: none; }
-  .hero-title { font-size: 2.4rem; }
-  .search-grid { grid-template-columns: 1fr; }
+  .nav-hamburger { display: flex; }
+  .header-actions .btn-gold { display: none; }
+  .header { padding: 14px 0; }
+  .header.scrolled { padding: 12px 0; }
+
+  /* ── Hero ── */
+  .hero { padding: 120px 0 60px; min-height: auto; }
+  .hero-title { font-size: 2.2rem; letter-spacing: -0.5px; }
+  .hero-subtitle { font-size: 1rem; }
+  .hero-badge { font-size: 0.75rem; padding: 6px 14px; }
+  .section-padding { padding: 60px 0; }
+  .section-title { font-size: 1.9rem; }
+
+  /* ── Hero Search Card ── */
+  .search-card { padding: 18px; }
+  .search-grid { grid-template-columns: 1fr; gap: 12px; }
+  .search-tabs { flex-wrap: wrap; }
+  .tab-btn { font-size: 0.85rem; padding: 7px 16px; }
+
+  /* ── Filter Bar ── */
+  .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
+  .filter-controls-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    width: 100%;
+  }
+  .sort-wrap { flex-wrap: wrap; gap: 8px; }
+  .category-pills { gap: 8px; }
+  .pill-btn { font-size: 0.82rem; padding: 8px 14px; }
+  #priceRangeSlider { width: 100% !important; min-width: 120px; }
+
+  /* ── Property Grid ── */
+  .property-grid { grid-template-columns: 1fr; gap: 20px; }
+  .card-img-wrap { height: 220px; }
+
+  /* ── Calculator ── */
+  .calculator-section { padding: 60px 0; }
+  .calc-card {
+    grid-template-columns: 1fr;
+    padding: 20px 16px;
+    gap: 24px;
+  }
+  .calc-inputs { gap: 20px; }
+  .calc-range-header { font-size: 0.88rem; }
+  .calc-results { padding: 20px 16px; }
+  .monthly-amount { font-size: 2.2rem; }
+  .monthly-label { font-size: 0.82rem; }
+  .breakdown-legend {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .legend-item { font-size: 0.82rem; }
+
+  /* ── Location Grid ── */
+  .location-grid { grid-template-columns: 1fr; }
+  .location-card { height: 260px; }
+
+  /* ── 360 Virtual Tour ── */
+  .virtual-tour-box { height: 340px; }
+  .virtual-tour-box h2 { font-size: 1.6rem !important; }
+  .play-360-btn { width: 70px; height: 70px; font-size: 1.5rem; }
+
+  /* ── Advisory / Agents ── */
+  .agent-grid { grid-template-columns: 1fr; }
+
+  /* ── Testimonials ── */
+  #testimonialsGrid { grid-template-columns: 1fr !important; }
+
+  /* ── Footer ── */
+  .footer { padding: 60px 0 24px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+  .footer-brand p { max-width: 100%; }
+  .footer-bottom {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+  .footer-bottom div { flex-wrap: wrap; justify-content: center; gap: 12px; }
+
+  /* ── Modals ── */
+  .modal-backdrop { padding: 12px; align-items: flex-end; }
+  .modal-box {
+    max-width: 100%;
+    max-height: 92vh;
+    padding: 22px 18px;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+  }
   .modal-grid { grid-template-columns: 1fr; }
-  .footer-grid { grid-template-columns: 1fr; }
+  .modal-gallery-main { height: 220px; }
+
+  /* Schedule Tour modal */
+  #scheduleTourModal .modal-box > form > div[style*="grid-template-columns: 1fr 1fr"] {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  /* ── Wishlist Drawer ── */
+  .drawer { max-width: 100%; right: -100%; }
+
+  /* ── Toast ── */
+  .toast-container { bottom: 16px; right: 12px; left: 12px; }
+  .toast { font-size: 0.85rem; }
+}
+
+/* ── Small Mobile: 480px ── */
+@media (max-width: 480px) {
+  .container { padding: 0 16px; }
+  .hero-title { font-size: 1.85rem; }
+  .hero-subtitle { font-size: 0.9rem; }
+
+  .search-card { padding: 14px; border-radius: var(--radius-md); }
+  .section-title { font-size: 1.65rem; }
+  .section-desc { font-size: 0.9rem; }
+
+  /* Calculator on very small screens */
+  .calc-card { padding: 16px 12px; }
+  .monthly-amount { font-size: 1.9rem; }
+  .calc-range-header label { font-size: 0.82rem; }
+  .calc-val { font-size: 0.9rem; }
+
+  /* Brand logo */
+  .brand-logo { font-size: 1.3rem; }
+  .brand-logo i { font-size: 1.1rem; }
+
+  /* Pill buttons */
+  .pill-btn { font-size: 0.78rem; padding: 7px 12px; }
+
+  /* Property card */
+  .card-price-tag { font-size: 1.05rem; }
+  .card-title { font-size: 1.15rem; }
+
+  /* Virtual tour */
+  .virtual-tour-box { height: 280px; }
+  .tour-overlay-content { padding: 20px; }
+  .virtual-tour-box h2 { font-size: 1.3rem !important; }
+  .virtual-tour-box p { font-size: 0.85rem !important; }
+
+  /* Footer */
+  .newsletter-form { flex-direction: column; }
+  .newsletter-input { width: 100%; }
+  .footer-bottom div { flex-direction: column; align-items: center; gap: 8px; }
 }
