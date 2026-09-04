@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AURA ESTATES | Ultra-Luxury Real Estate & Residences</title>
+  <meta name="description" content="Discover world-class luxury villas, Manhattan penthouses, and private oceanfront estates with AURA Estates. Premium architectural excellence and advisory.">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Header Navigation -->
+  <header class="header" id="mainHeader">
+    <div class="container header-container">
+      <a href="#" class="brand-logo">
+        <i class="fa-solid fa-crown"></i>
+        <span>AURA<span class="gold-text">ESTATES</span></span>
+      </a>
+
+      <ul class="nav-menu">
+        <li><a href="#hero" class="nav-link active">Home</a></li>
+        <li><a href="#propertiesSection" class="nav-link">Exclusive Estates</a></li>
+        <li><a href="#locationsSection" class="nav-link">Locations</a></li>
+        <li><a href="#calculatorSection" class="nav-link">Calculator</a></li>
+        <li><a href="#advisorySection" class="nav-link">Advisory</a></li>
+        <li><a href="#tour360Section" class="nav-link">360° Virtual</a></li>
+      </ul>
+
+      <div class="header-actions">
+        <button class="btn-icon theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Theme">
+          <i class="fa-solid fa-sun"></i>
+        </button>
+
+        <button class="btn-icon" id="wishlistDrawerBtn" title="Saved Wishlist">
+          <i class="fa-regular fa-heart"></i>
+          <span class="badge-count" id="wishlistCountBadge">0</span>
+        </button>
+
+        <a href="#propertiesSection" class="btn btn-gold">
+          <i class="fa-solid fa-compass"></i> Explore Listings
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="hero-bg-slider">
+      <div class="hero-slide active" style="background-image: url('./assets/images/hero_villa.jpg');"></div>
+      <div class="hero-slide" style="background-image: url('./assets/images/property_penthouse.jpg');"></div>
+      <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1800&q=80');"></div>
+    </div>
+    <div class="hero-overlay"></div>
+
+    <div class="container hero-content">
+      <div class="hero-badge">
+        <i class="fa-solid fa-gem"></i> WORLD-CLASS ADVISORY & LUXURY ESTATES
+      </div>
+      <h1 class="hero-title">Architectural Excellence.<br><span class="gold-text">Unrivaled Prestige.</span></h1>
+      <p class="hero-subtitle">
+        Access an off-market portfolio of ultra-luxury mansions, skyline penthouses, and private waterfront sanctuaries worldwide.
+      </p>
+
+      <!-- Search Card -->
+      <div class="search-card">
+        <div class="search-tabs">
+          <button class="tab-btn active" data-tab="Buy">Properties For Sale</button>
+          <button class="tab-btn" data-tab="Rent">Luxury Rentals</button>
+        </div>
+
+        <div class="search-grid">
+          <div class="search-group">
+            <span class="search-label">Location / Keyword</span>
+            <div class="search-input-wrap">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" class="search-input" id="heroSearchInput" placeholder="Bel Air, New York, Miami...">
+            </div>
+          </div>
+
+          <div class="search-group">
+            <span class="search-label">Prime Location</span>
+            <div class="search-input-wrap">
+              <i class="fa-solid fa-location-dot"></i>
+              <select class="search-select" id="heroLocSelect">
+                <option value="all">All Locations</option>
+                <option value="Los Angeles">Los Angeles / Bel Air</option>
+                <option value="New York">New York City</option>
+                <option value="Miami">Miami Beach</option>
+                <option value="Aspen">Aspen</option>
+                <option value="Dubai">Dubai</option>
+                <option value="Cap-Ferrat">French Riviera</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="search-group">
+            <span class="search-label">Property Type</span>
+            <div class="search-input-wrap">
+              <i class="fa-solid fa-building"></i>
+              <select class="search-select" id="heroTypeSelect">
+                <option value="all">All Property Types</option>
+                <option value="villas">Luxury Villas</option>
+                <option value="penthouse">Skyline Penthouses</option>
+                <option value="oceanfront">Waterfront Estates</option>
+                <option value="chalet">Alpine Chalets</option>
+                <option value="commercial">Commercial Flagship</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="search-group">
+            <span class="search-label">Min Bedrooms</span>
+            <div class="search-input-wrap">
+              <i class="fa-solid fa-bed"></i>
+              <select class="search-select" id="heroBedSelect">
+                <option value="all">Any Beds</option>
+                <option value="4">4+ Bedrooms</option>
+                <option value="5">5+ Bedrooms</option>
+                <option value="6">6+ Bedrooms</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="search-group">
+            <span class="search-label">&nbsp;</span>
+            <button class="btn btn-gold search-btn" id="heroSearchBtn">
+              <i class="fa-solid fa-sliders"></i> Search
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Property Catalog Section -->
+  <section class="section-padding" id="propertiesSection">
+    <div class="container">
+      <div class="section-title-wrap">
+        <span class="section-subtitle">Curated Portfolio</span>
+        <h2 class="section-title">Featured Ultra-Luxury Properties</h2>
+        <p class="section-desc">Handpicked architectural masterpieces available for acquisition and private viewing.</p>
+      </div>
+
+      <!-- Filter Controls Bar -->
+      <div class="filter-bar">
+        <div class="category-pills" id="categoryPills">
+          <!-- Rendered via JS -->
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+          <div class="sort-wrap">
+            <span class="sort-label">Max Price:</span>
+            <input type="range" id="priceRangeSlider" min="5000000" max="35000000" step="1000000" value="35000000" class="custom-range" style="width: 130px;">
+            <span class="calc-val" id="priceSliderVal">$35.0M</span>
+          </div>
+
+          <div class="sort-wrap">
+            <span class="sort-label">Sort By:</span>
+            <select class="search-select" id="sortSelect" style="padding: 6px 12px 6px 12px; font-size: 0.85rem; width: 140px;">
+              <option value="featured">Featured First</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="newest">Newest Architecture</option>
+            </select>
+          </div>
+
+          <span id="propertyResultCount" style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">8 Properties Found</span>
+        </div>
+      </div>
+
+      <!-- Property Grid -->
+      <div class="property-grid" id="propertyGrid">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Prime Locations Explorer -->
+  <section class="section-padding" id="locationsSection" style="background: var(--bg-surface);">
+    <div class="container">
+      <div class="section-title-wrap">
+        <span class="section-subtitle">Global Destinations</span>
+        <h2 class="section-title">Explore Prime Neighborhoods</h2>
+        <p class="section-desc">Browse bespoke real estate in the world's most sought-after luxury enclaves.</p>
+      </div>
+
+      <div class="location-grid" id="locationsGrid">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Financial & Mortgage Calculator Section -->
+  <section class="section-padding calculator-section" id="calculatorSection">
+    <div class="container">
+      <div class="section-title-wrap">
+        <span class="section-subtitle">Financial Planning</span>
+        <h2 class="section-title">Interactive Investment Calculator</h2>
+        <p class="section-desc">Calculate estimated monthly payments, mortgage structure, and property taxes in real time.</p>
+      </div>
+
+      <div class="calc-card">
+        <!-- Calculator Inputs -->
+        <div class="calc-inputs">
+          <div class="calc-range-group">
+            <div class="calc-range-header">
+              <label>Property Purchase Price</label>
+              <span class="calc-val" id="valHomePrice">$24,500,000</span>
+            </div>
+            <input type="range" id="calcHomePrice" min="2000000" max="50000000" step="500000" value="24500000" class="custom-range">
+          </div>
+
+          <div class="calc-range-group">
+            <div class="calc-range-header">
+              <label>Down Payment (%)</label>
+              <span class="calc-val" id="valDownPayment">20% ($4,900,000)</span>
+            </div>
+            <input type="range" id="calcDownPayment" min="10" max="50" step="5" value="20" class="custom-range">
+          </div>
+
+          <div class="calc-range-group">
+            <div class="calc-range-header">
+              <label>Interest Rate (%)</label>
+              <span class="calc-val" id="valInterestRate">6.5%</span>
+            </div>
+            <input type="range" id="calcInterestRate" min="3.5" max="10.0" step="0.25" value="6.5" class="custom-range">
+          </div>
+
+          <div class="calc-range-group">
+            <div class="calc-range-header">
+              <label>Loan Duration (Years)</label>
+              <span class="calc-val" id="valLoanTerm">30 Years</span>
+            </div>
+            <input type="range" id="calcLoanTerm" min="15" max="30" step="5" value="30" class="custom-range">
+          </div>
+        </div>
+
+        <!-- Calculator Results -->
+        <div class="calc-results">
+          <div class="monthly-payment-box">
+            <span class="monthly-label">Estimated Monthly Payment</span>
+            <div class="monthly-amount" id="calcMonthlyTotal">$148,220</div>
+            <small style="color: var(--text-muted);">Includes Principal, Interest, Tax & HOA</small>
+          </div>
+
+          <div class="breakdown-bar">
+            <div class="bar-segment bar-principal" id="barPrincipal" style="width: 75%;"></div>
+            <div class="bar-segment bar-tax" id="barTax" style="width: 15%;"></div>
+            <div class="bar-segment bar-insurance" id="barInsurance" style="width: 6%;"></div>
+            <div class="bar-segment bar-hoa" id="barHOA" style="width: 4%;"></div>
+          </div>
+
+          <div class="breakdown-legend">
+            <div class="legend-item"><span class="dot" style="background: var(--accent-gold);"></span> Principal & Interest: <strong id="legPrincipal">$123,800</strong></div>
+            <div class="legend-item"><span class="dot" style="background: #38bdf8;"></span> Property Tax: <strong id="legTax">$24,500</strong></div>
+            <div class="legend-item"><span class="dot" style="background: #10b981;"></span> Homeowners Insurance: <strong id="legInsurance">$8,166</strong></div>
+            <div class="legend-item"><span class="dot" style="background: #a855f7;"></span> Luxury HOA Fees: <strong id="legHOA">$1,200</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 360 Virtual Spatial Tour Banner Section -->
+  <section class="section-padding" id="tour360Section">
+    <div class="container">
+      <div class="virtual-tour-box">
+        <img class="tour-bg" src="./assets/images/hero_villa.jpg" alt="Virtual 360 Tour">
+        <div class="tour-overlay-content">
+          <button class="play-360-btn" id="play360Btn" title="Launch 360° Virtual Tour">
+            <i class="fa-solid fa-vr-cardboard"></i>
+          </button>
+          <h2 style="font-family: var(--font-heading); font-size: 2.5rem; margin-bottom: 8px;">Experience Spatial 360° Virtual Walkthroughs</h2>
+          <p style="max-width: 600px; color: #e2e8f0; margin-bottom: 24px;">Inspect floorplans, ambient lighting, and panoramic vistas from anywhere in the world.</p>
+          <button class="btn btn-gold" onclick="document.getElementById('play360Btn').click()">
+            <i class="fa-solid fa-play"></i> Launch Virtual Demo
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Advisory & Brokerage Team -->
+  <section class="section-padding" id="advisorySection" style="background: var(--bg-surface);">
+    <div class="container">
+      <div class="section-title-wrap">
+        <span class="section-subtitle">Private Brokerage</span>
+        <h2 class="section-title">Meet Our Executive Advisors</h2>
+        <p class="section-desc">Discreet representation for high-net-worth individuals, family offices, and institutional investors.</p>
+      </div>
+
+      <div class="agent-grid" id="agentsGrid">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Client Reviews & Press Section -->
+  <section class="section-padding">
+    <div class="container">
+      <div class="section-title-wrap">
+        <span class="section-subtitle">Reputation & Trust</span>
+        <h2 class="section-title">What High-Net-Worth Clients Say</h2>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px;" id="testimonialsGrid">
+        <!-- Rendered via JS -->
+      </div>
+
+      <!-- Press Badges -->
+      <div style="margin-top: 60px; text-align: center; border-top: 1px solid var(--border-light); padding-top: 40px;">
+        <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); display: block; margin-bottom: 20px;">Featured In World Publications</span>
+        <div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; opacity: 0.6; font-family: var(--font-heading); font-size: 1.2rem; font-weight: 700; color: var(--text-secondary);">
+          <span>FORBES REAL ESTATE</span>
+          <span>ARCHITECTURAL DIGEST</span>
+          <span>BLOOMBERG LUXURY</span>
+          <span>CHRISTIE'S INTERNATIONAL</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="brand-logo" style="margin-bottom: 12px; display: inline-flex;">
+            <i class="fa-solid fa-crown"></i>
+            <span>AURA<span class="gold-text">ESTATES</span></span>
+          </a>
+          <p>Defining ultra-luxury living through architectural mastery, global advisory, and exclusive off-market opportunities.</p>
+          <div style="display: flex; gap: 12px;">
+            <a href="#" class="btn-icon"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="btn-icon"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="#" class="btn-icon"><i class="fa-brands fa-youtube"></i></a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="#hero">Home Showcase</a></li>
+            <li><a href="#propertiesSection">Curated Catalog</a></li>
+            <li><a href="#locationsSection">Prime Enclaves</a></li>
+            <li><a href="#calculatorSection">Financial Calculator</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Categories</h4>
+          <ul class="footer-links">
+            <li><a href="#propertiesSection">Bel Air Villas</a></li>
+            <li><a href="#propertiesSection">Manhattan Penthouses</a></li>
+            <li><a href="#propertiesSection">Miami Waterfront</a></li>
+            <li><a href="#propertiesSection">Alpine Ski Chalets</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Private Newsletter</h4>
+          <p style="font-size: 0.85rem; margin-bottom: 16px;">Receive confidential off-market briefings directly to your inbox.</p>
+          <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing to AURA Estates Private Briefings.');">
+            <input type="email" class="newsletter-input" placeholder="Your private email..." required>
+            <button type="submit" class="btn btn-gold" style="padding: 10px 16px;"><i class="fa-solid fa-paper-plane"></i></button>
+          </form>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 AURA ESTATES International Ltd. All Rights Reserved.</p>
+        <div style="display: flex; gap: 20px;">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Advisory</a>
+          <a href="#">Security & Confidentiality</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Property Quick View Detail Modal -->
+  <div class="modal-backdrop" id="propertyDetailModal">
+    <div class="modal-box">
+      <button class="modal-close-btn">&times;</button>
+      <div id="propertyModalContent">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Schedule Private Tour Modal -->
+  <div class="modal-backdrop" id="scheduleTourModal">
+    <div class="modal-box" style="max-width: 540px;">
+      <button class="modal-close-btn">&times;</button>
+      <div style="text-align: center; margin-bottom: 24px;">
+        <i class="fa-solid fa-calendar-check" style="font-size: 2.5rem; color: var(--accent-gold); margin-bottom: 8px;"></i>
+        <h2 style="font-family: var(--font-heading); font-size: 1.8rem;">Schedule Private Tour</h2>
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">Select your preferred viewing format & private advisor.</p>
+      </div>
+
+      <form id="scheduleTourForm" style="display: flex; flex-direction: column; gap: 16px;">
+        <div class="search-group">
+          <span class="search-label">Property Title</span>
+          <input type="text" class="search-input" id="tourPropertyInput" readonly style="background: rgba(255,255,255,0.02);">
+        </div>
+
+        <div class="search-group">
+          <span class="search-label">Assigned Advisor</span>
+          <input type="text" class="search-input" id="tourAgentInput" readonly style="background: rgba(255,255,255,0.02);">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="search-group">
+            <span class="search-label">Your Full Name</span>
+            <input type="text" class="search-input" placeholder="Lord / Lady / Mr / Ms..." required style="padding-left: 14px;">
+          </div>
+          <div class="search-group">
+            <span class="search-label">Phone / WhatsApp</span>
+            <input type="tel" class="search-input" placeholder="+1 (555) 000-0000" required style="padding-left: 14px;">
+          </div>
+        </div>
+
+        <div class="search-group">
+          <span class="search-label">Private Email</span>
+          <input type="email" class="search-input" placeholder="client@domain.com" required style="padding-left: 14px;">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="search-group">
+            <span class="search-label">Preferred Date</span>
+            <input type="date" class="search-input" required style="padding-left: 14px;">
+          </div>
+          <div class="search-group">
+            <span class="search-label">Format</span>
+            <select class="search-select" style="padding-left: 14px;">
+              <option value="in-person">In-Person Private Tour</option>
+              <option value="virtual-360">Virtual 360 Spatial Tour</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-gold" style="width: 100%; margin-top: 10px; padding: 14px;">
+          <i class="fa-solid fa-lock"></i> Request Confidential Booking
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Wishlist Slide-out Drawer -->
+  <div class="drawer-backdrop" id="wishlistDrawerBackdrop">
+    <div class="drawer">
+      <div class="drawer-header">
+        <h3 style="font-family: var(--font-heading); font-size: 1.4rem;">Saved Wishlist</h3>
+        <button class="modal-close-btn" id="closeDrawerBtn">&times;</button>
+      </div>
+      <div class="drawer-body" id="wishlistItemsContainer">
+        <!-- Rendered via JS -->
+      </div>
+      <div style="padding-top: 20px; border-top: 1px solid var(--border-light); margin-top: 10px;">
+        <button class="btn btn-gold" style="width: 100%;" onclick="alert('Sending bulk inquiry to senior broker...')">
+          <i class="fa-solid fa-paper-plane"></i> Inquire On Saved Estates
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
